@@ -1,0 +1,28 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: 'recursive'
+
+      - name: Build with GCC
+        shell: bash
+        run: |
+          mkdir build
+          cmake \
+              -DCMAKE_C_COMPILER=gcc \
+              -DCMAKE_CXX_COMPILER=g++ \
+              -B ${PWD}/build
+          cmake --build ${PWD}/build --config Release
+          
+      - name: Run tests with GCC
+        shell: bash
+        run: |
+          ${PWD}/build/test/run_tests --gtest_repeat=2 --gtest_break_on_failure
