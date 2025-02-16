@@ -21,8 +21,8 @@ jobs:
               -DCMAKE_CXX_COMPILER=g++ \
               -B ${PWD}/build
           cmake --build ${PWD}/build --config Release
-          
+          find ${PWD}/build -name run_tests
       - name: Run tests with GCC
         shell: bash
         run: |
-          ${PWD}/build/test/run_tests --gtest_repeat=2 --gtest_break_on_failure
+          ${PWD}/build/tests/run_tests --gtest_repeat=2 --gtest_break_on_failure
